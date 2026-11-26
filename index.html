@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e7490">
+<title>Thunai — துணை</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="styles.css">
+<script>try{var p=JSON.parse(localStorage.getItem("thunai.theme")||'"auto"');document.documentElement.dataset.theme=(p==="dark"||(p==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches))?"dark":"light"}catch(e){}</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-flood" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16c2 0 2-1.6 4.5-1.6S9 16 11 16s2.5-1.6 4.5-1.6S18 16 20 16M2 20.5c2 0 2-1.6 4.5-1.6S9 20.5 11 20.5s2.5-1.6 4.5-1.6 2.5 1.6 4.5 1.6"/><path d="M12 3s-4 4.3-4 7a4 4 0 0 0 8 0c0-2.7-4-7-4-7z"/></symbol>
+  <symbol id="i-scam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/><path d="M12 8v5M12 16.5v.01"/></symbol>
+  <symbol id="i-med" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5a5 5 0 0 1-7-7l7-7a5 5 0 0 1 7 7z"/><path d="M8.5 8.5l7 7"/></symbol>
+  <symbol id="i-sch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12.5h5"/></symbol>
+  <symbol id="i-energy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4.5 13.5H11L10 22l8.5-11.5H12z"/></symbol>
+  <symbol id="i-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-9 6-14 15-14 0 9-5 15-14 15"/><path d="M5 19c3-4 6-6 9-7"/></symbol>
+  <symbol id="i-lake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 7l4-4 4 4-4 4zM9.5 10.5l3-3M3 21c1.5 0 1.5-1.2 3-1.2s1.5 1.2 3 1.2 1.5-1.2 3-1.2 1.5 1.2 3 1.2"/><path d="M4 14.5l3.5-3.5 3 3-3.5 3.5z"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-locate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="i-speak" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 17l.7 2.3L22 20l-2.3.7L19 23l-.7-2.3L16 20l2.3-.7z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h5"/></symbol>
+  <symbol id="i-near" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><path d="M12 6.5v6M9 9.5h6"/></symbol>
+  <symbol id="i-health" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 5.6a5 5 0 0 0-7.1 0L12 6.9l-1.3-1.3a5 5 0 0 0-7.1 7.1L12 21l8.4-8.3a5 5 0 0 0 0-7.1z"/><path d="M3.5 12h4l2-3 3 6 2-3h6"/></symbol>
+  <symbol id="i-ask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 10.5a7 7 0 0 0 14 0M12 17.5V21M8.5 21h7"/></symbol>
+  <symbol id="i-kolam" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 3c6.5 6.5 6.5 10.5 0 17-6.5-6.5-6.5-10.5 0-17zM20 37c-6.5-6.5-6.5-10.5 0-17 6.5 6.5 6.5 10.5 0 17zM3 20c6.5-6.5 10.5-6.5 17 0-6.5 6.5-10.5 6.5-17 0zM37 20c-6.5 6.5-10.5 6.5-17 0 6.5-6.5 10.5-6.5 17 0z"/><circle cx="20" cy="20" r="2.6" fill="currentColor" stroke="none"/></symbol>
+ </defs>
+</svg>
+
+<header class="top" id="top">
+ <div class="wrap">
+  <a class="brand" href="#home"><span class="logo"><svg width="24" height="24" style="color:#fff"><use href="#i-kolam"/></svg></span><span><span data-t="app.name">Thunai</span><small data-t="app.tagline">Your companion</small></span></a>
+  <nav class="topnav" id="topnav"></nav>
+  <span class="sp"></span>
+  <div class="seg" role="group" aria-label="Language"><button id="lEn" aria-pressed="true">EN</button><button id="lTa" aria-pressed="false">தமிழ்</button></div>
+  <button class="iconbtn" id="themeBtn" aria-label="Dark mode"></button>
+  <a class="iconbtn" href="#settings" aria-label="Settings"><svg width="20" height="20"><use href="#i-settings"/></svg></a>
+ </div>
+</header>
+
+<div class="offline" id="offline" role="status" hidden></div>
+
+<!-- HOME -->
+<main id="v-home" class="view on"><div class="wrap">
+ <section class="hero">
+  <svg class="kolam" viewBox="0 0 40 40" style="color:#fff"><use href="#i-kolam"/></svg>
+  <div class="greet" id="greet"></div>
+  <h1 data-t="hero.title">One companion for every age</h1>
+  <p data-t="hero.sub"></p>
+  <div class="herobtns"><a class="talkbtn" href="#ask"><span class="mi"><svg width="22" height="22"><use href="#i-ask"/></svg></span><span data-t="ask.hero"></span></a><button class="chip-ai" id="aiChip"><i></i><span id="aiChipTxt"></span></button></div>
+ </section>
+ <div id="elderHome" class="elder-grid" hidden></div>
+ <a class="sosbar" href="#sos" id="sosBar"><span class="sosdot">SOS</span><span><b data-t="sos.bar"></b><small data-t="sos.barSub"></small></span></a>
+ <div id="rainHome"></div>
+ <div id="normalHome">
+ <nav class="quick" id="quick"></nav>
+ <div class="notice" id="aiNotice" hidden><svg width="22" height="22" style="color:var(--warn);flex:none"><use href="#i-spark"/></svg><div style="flex:1"><span data-t="ai.offLong"></span></div><a class="btn small" href="#settings" style="--c:var(--accent)" data-t="ai.setup">Set up AI</a></div>
+ <div class="section-title"><h2 data-t="helpers.title">Your helpers</h2></div>
+ <div class="tiles" id="tiles"></div>
+ </div>
+ <div class="section-title"><h2 data-t="em.title">In an emergency</h2></div>
+ <div class="emerg">
+  <a href="tel:112" data-ext><span><svg width="18" height="18"><use href="#i-phone"/></svg></span><span data-t="em.112" style="width:auto;height:auto;background:none;color:inherit">Emergency 112</span></a>
+  <a href="tel:1930" data-ext><span><svg width="18" height="18"><use href="#i-scam"/></svg></span><span data-t="em.1930" style="width:auto;height:auto;background:none;color:inherit">Cyber fraud 1930</span></a>
+ </div>
+ <p class="foot" data-t="st.aboutTxt"></p>
+</div></main>
+
+<!-- FLOOD -->
+<main id="v-flood" class="view" style="--c:var(--c-flood)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="m.flood.t"></h2></div><p data-t="m.flood.long"></p></section>
+ <div class="stack">
+  <div id="rainFlood"></div>
+  <div class="card">
+   <h3 data-t="fl.route"></h3>
+   <div class="ptrow"><span class="dot" style="background:#10b981"></span><div class="field"><input class="in" id="fromIn" autocomplete="off" data-tp="fl.searchPh"><div class="suggest" id="fromSug" hidden></div></div></div>
+   <div class="mini"><button class="btn soft small" id="fromLoc"><svg width="16" height="16"><use href="#i-locate"/></svg><span data-t="fl.myloc"></span></button><button class="btn soft small" id="fromTap"><svg width="16" height="16"><use href="#i-pin"/></svg><span data-t="fl.tapmap"></span></button></div>
+   <div class="ptrow" style="margin-top:12px"><span class="dot" style="background:#e11d48"></span><div class="field"><input class="in" id="toIn" autocomplete="off" data-tp="fl.searchPh"><div class="suggest" id="toSug" hidden></div></div></div>
+   <div class="mini"><button class="btn soft small" id="toLoc"><svg width="16" height="16"><use href="#i-locate"/></svg><span data-t="fl.myloc"></span></button><button class="btn soft small" id="toTap"><svg width="16" height="16"><use href="#i-pin"/></svg><span data-t="fl.tapmap"></span></button></div>
+   <label class="l" data-t="fl.by"></label>
+   <div class="pills" id="vehPills"></div>
+  </div>
+  <div class="mapwrap">
+   <div class="maphint" id="mapHint" hidden></div>
+   <div class="map" id="fmap"></div>
+   <div class="routebar"><div style="flex:1"><div class="st" id="routeSt">—</div><div class="meta" id="routeMeta"></div></div><button class="btn soft small" id="demoBtn" data-t="fl.demo"></button></div>
+  </div>
+  <div class="legend"><span><i style="background:#38bdf8"></i><span data-t="legend.lt15"></span></span><span><i style="background:#2563eb"></i><span data-t="legend.15to30"></span></span><span><i style="background:#e11d48"></i><span data-t="legend.gt30"></span></span><span><i style="background:#f59e0b"></i><span data-t="legend.route"></span></span></div>
+  <div class="card">
+   <h3 data-t="fl.report"></h3>
+   <label class="l" data-t="fl.where"></label>
+   <div class="mini" style="margin-top:0"><button class="btn soft small" id="repLoc"><svg width="16" height="16"><use href="#i-locate"/></svg><span data-t="fl.here"></span></button><button class="btn soft small" id="repCenter"><span data-t="fl.center"></span></button><button class="btn soft small" id="repTap"><svg width="16" height="16"><use href="#i-pin"/></svg><span data-t="fl.tapmap"></span></button></div>
+   <div class="hint" id="repWhere"></div>
+   <label class="l" data-t="fl.photo"></label>
+   <label class="pick" data-pick="fImg"><input type="file" id="fImg" accept="image/*"><span class="thumb"><svg width="26" height="26"><use href="#i-camera"/></svg></span><span data-t="c.photo"></span></label>
+   <label class="l" data-t="fl.desc"></label>
+   <div class="composer" style="margin-top:0"><input class="in" id="fDesc" data-tp="fl.descPh"><button class="round mic" data-mic="fDesc" aria-label="Speak" hidden><svg width="20" height="20"><use href="#i-mic"/></svg></button></div>
+   <button class="btn block" id="fGo" style="margin-top:14px"><svg width="18" height="18"><use href="#i-spark"/></svg><span data-t="fl.go"></span></button>
+   <div class="err" id="fErr"></div>
+  </div>
+  <div class="out" id="fOut"></div>
+  <div class="card"><h3 data-t="fl.reports"></h3><p class="hint live" id="liveSt" style="margin:-4px 0 6px"></p><div id="repList"></div><p class="hint" data-t="fl.localNote"></p></div>
+ </div>
+</div></main>
+
+<!-- SCAM -->
+<main id="v-scam" class="view" style="--c:var(--c-scam)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="m.scam.t"></h2></div><p data-t="m.scam.long"></p></section>
+ <div class="stack">
+  <div class="card">
+   <label class="l" style="margin-top:0" data-t="sc.msg"></label>
+   <textarea class="in" id="sTxt" data-tp="sc.ph"></textarea>
+   <div class="mini"><button class="btn soft small" data-mic="sTxt" hidden><svg width="16" height="16"><use href="#i-mic"/></svg><span data-t="c.mic"></span></button></div>
+   <label class="l" data-t="sc.shot"></label>
+   <label class="pick"><input type="file" id="sImg" accept="image/*"><span class="thumb"><svg width="26" height="26"><use href="#i-camera"/></svg></span><span data-t="c.photo"></span></label>
+   <label class="l" data-t="sc.try"></label>
+   <div class="pills" id="sSamples"></div>
+   <button class="btn block" id="sGo" style="margin-top:16px"><svg width="18" height="18"><use href="#i-scam"/></svg><span data-t="sc.go"></span></button>
+   <div class="err" id="sErr"></div>
+  </div>
+  <div class="out stack" id="sOut"></div>
+  <div class="card"><h3 data-t="sc.lost"></h3><p data-t="sc.lostTxt"></p><div class="btns"><a class="btn" href="tel:1930" data-ext><svg width="18" height="18"><use href="#i-phone"/></svg><span data-t="sc.call"></span></a><a class="btn soft" href="https://cybercrime.gov.in" data-ext data-t="sc.portal"></a></div></div>
+ </div>
+</div></main>
+
+<!-- MEDICINE -->
+<main id="v-med" class="view" style="--c:var(--c-med)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="m.med.t"></h2></div><p data-t="m.med.long"></p></section>
+ <div class="stack">
+  <div class="card">
+   <label class="pick"><input type="file" id="mImg" accept="image/*"><span class="thumb"><svg width="26" height="26"><use href="#i-camera"/></svg></span><span data-t="md.photo"></span></label>
+   <label class="l" data-t="md.name"></label>
+   <div class="composer" style="margin-top:0"><input class="in" id="mName" data-tp="md.namePh"><button class="round mic" data-mic="mName" aria-label="Speak" hidden><svg width="20" height="20"><use href="#i-mic"/></svg></button></div>
+   <button class="btn block" id="mGo" style="margin-top:14px"><svg width="18" height="18"><use href="#i-spark"/></svg><span data-t="md.go"></span></button>
+   <div class="err" id="mErr"></div>
+  </div>
+  <div class="out" id="mOut"></div>
+  <div class="card"><h3 data-t="md.today"></h3><div id="mToday"></div><div class="btns"><button class="btn soft" id="mFamily"><svg width="18" height="18"><use href="#i-share"/></svg><span data-t="md.tellFamily"></span></button></div></div>
+  <div class="card">
+   <h3 data-t="md.rx"></h3><p class="sub" data-t="md.rxSub"></p>
+   <label class="pick"><input type="file" id="rxImg" accept="image/*"><span class="thumb"><svg width="26" height="26"><use href="#i-camera"/></svg></span><span data-t="md.rxPhoto"></span></label>
+   <button class="btn block" id="rxGo" style="margin-top:14px"><svg width="18" height="18"><use href="#i-spark"/></svg><span data-t="md.rxGo"></span></button>
+   <div class="err" id="rxErr"></div>
+   <div class="out" id="rxOut"></div>
+  </div>
+  <div class="card"><h3 data-t="md.box"></h3><p class="sub" data-t="md.boxSub"></p><div id="mBox"></div></div>
+  <p class="hint" data-t="md.note"></p>
+ </div>
+</div></main>
+
+<!-- SCHEMES -->
+<main id="v-sch" class="view" style="--c:var(--c-sch)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="m.sch.t"></h2></div><p data-t="m.sch.long"></p></section>
+ <div class="stack">
+  <div class="card">
+   <div class="chat" id="chat" aria-live="polite"></div>
+   <form class="composer" id="chatForm"><input class="in" id="chatIn" autocomplete="off" data-tp="ch.ph"><button type="button" class="round mic" data-mic="chatIn" data-autosend="1" aria-label="Speak" hidden><svg width="20" height="20"><use href="#i-mic"/></svg></button><button class="round go" id="chatSend" aria-label="Send"><svg width="20" height="20"><use href="#i-send"/></svg></button></form>
+   <div class="pills" style="margin-top:12px" id="chatEx"></div>
+   <div class="err" id="cErr"></div>
+  </div>
+  <div class="out" id="cOut"></div>
+  <p class="hint" data-t="ch.note"></p>
+ </div>
+</div></main>
+
+<!-- ENERGY -->
+<main id="v-energy" class="view" style="--c:var(--c-energy)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="m.energy.t"></h2></div><p data-t="m.energy.long"></p></section>
+ <div class="stack">
+  <div class="card">
+   <div class="kpis"><div class="kpi"><b id="eUnits">0</b><span data-t="en.units"></span></div><div class="kpi"><b id="eCost">₹0</b><span data-t="en.cost"></span></div><div class="kpi"><b id="eGap">—</b><span data-t="en.gap"></span></div></div>
+   <div class="row" style="margin-top:4px"><div><label class="l" data-t="en.rate"></label><input class="in" type="number" id="eRate" value="6" min="0" step="0.5"></div><div><label class="l" data-t="en.bill"></label><input class="in" type="number" id="eBill" min="0" data-tp="en.optional"></div></div>
+  </div>
+  <div class="card">
+   <h3 data-t="en.apps"></h3>
+   <div class="scroll"><table class="etab"><thead><tr><th data-t="th.app"></th><th class="n" data-t="th.w"></th><th class="n" data-t="th.h"></th><th class="n" data-t="th.u"></th><th class="n" data-t="th.c"></th><th></th></tr></thead><tbody id="eRows"></tbody></table></div>
+   <label class="l" data-t="en.quick"></label><div class="pills" id="ePresets"></div>
+   <label class="l" data-t="en.scan"></label>
+   <label class="pick"><input type="file" id="eImg" accept="image/*"><span class="thumb"><svg width="26" height="26"><use href="#i-camera"/></svg></span><span data-t="en.scanPh"></span></label>
+   <div class="btns"><button class="btn soft" id="eScan"><span data-t="en.identify"></span></button><button class="btn" id="ePlan"><svg width="18" height="18"><use href="#i-spark"/></svg><span data-t="en.plan"></span></button></div>
+   <div class="err" id="eErr"></div>
+  </div>
+  <div class="out" id="eOut"></div>
+ </div>
+</div></main>
+
+<!-- GREEN -->
+<main id="v-green" class="view" style="--c:var(--c-green)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="m.green.t"></h2></div><p data-t="m.green.long"></p></section>
+ <div class="stack">
+  <div class="card"><h3 id="gHead"></h3><div class="bars" id="gBars"></div><div class="hrs" id="gHrs"></div><p class="hint" data-t="gr.note"></p></div>
+  <div class="card">
+   <h3 data-t="gr.plan"></h3>
+   <div class="row"><div style="flex-basis:100%"><label class="l" data-t="gr.app"></label><select class="in" id="gApp"></select></div><div><label class="l" data-t="gr.usual"></label><select class="in" id="gHour"></select></div><div><label class="l" data-t="gr.uses"></label><input class="in" type="number" id="gUses" value="20" min="1"></div></div>
+   <div class="kpis" style="margin-top:14px"><div class="kpi"><b id="gBest"></b><span data-t="gr.best"></span></div><div class="kpi"><b id="gSave"></b><span id="gSaveLbl"></span></div><div class="kpi"><b id="gYear"></b><span data-t="gr.saveY"></span></div></div>
+   <p class="hint" id="gNote" style="font-weight:700"></p>
+   <button class="btn block" id="gPledge" style="margin-top:14px" data-t="gr.pledge"></button>
+  </div>
+  <div class="card"><h3 data-t="gr.board"></h3><table><thead><tr><th data-t="gr.room"></th><th class="n" data-t="gr.saved"></th></tr></thead><tbody id="gBoard"></tbody></table><p class="hint" data-t="gr.sample"></p></div>
+ </div>
+</div></main>
+
+<!-- LAKE -->
+<main id="v-lake" class="view" style="--c:var(--c-lake)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="m.lake.t"></h2></div><p data-t="m.lake.long"></p></section>
+ <div class="stack">
+  <div class="card">
+   <label class="l" style="margin-top:0" data-t="lk.pick"></label>
+   <div class="pills" id="lakePills"></div>
+   <div class="field" style="margin-top:10px"><input class="in" id="lakeIn" autocomplete="off" data-tp="lk.searchPh"><div class="suggest" id="lakeSug" hidden></div></div>
+  </div>
+  <div class="mapwrap"><div class="yearbadge" id="yearBadge">2025</div><div class="map" id="lmap"></div></div>
+  <div class="card">
+   <div class="yearbar"><button class="round go" id="lPlay" aria-label="Play"><svg width="20" height="20"><use href="#i-play"/></svg></button><input type="range" id="lYear" min="0" max="8" value="8" aria-label="Year"></div>
+   <div class="kpis" style="margin-top:14px"><div class="kpi"><b id="lArea" class="sm">—</b><span data-t="lk.area"></span></div></div>
+   <p class="hint" id="lFact" data-t="lk.fact"></p>
+   <p class="hint" data-t="lk.note"></p>
+  </div>
+  <div class="card">
+   <h3 data-t="lk.report"></h3>
+   <div class="row"><div><label class="l" data-t="lk.lake"></label><input class="in" id="lName"></div><div><label class="l" data-t="lk.to"></label><input class="in" id="lBody"></div></div>
+   <label class="l">&nbsp;</label>
+   <label class="pick"><input type="file" id="lImg" accept="image/*"><span class="thumb"><svg width="26" height="26"><use href="#i-camera"/></svg></span><span data-t="lk.photo"></span></label>
+   <label class="l" data-t="lk.saw"></label>
+   <div class="composer" style="margin-top:0"><input class="in" id="lNote" data-tp="lk.sawPh"><button class="round mic" data-mic="lNote" aria-label="Speak" hidden><svg width="20" height="20"><use href="#i-mic"/></svg></button></div>
+   <button class="btn block" id="lGo" style="margin-top:14px"><svg width="18" height="18"><use href="#i-spark"/></svg><span data-t="lk.go"></span></button>
+   <div class="err" id="lErr"></div>
+  </div>
+  <div class="out" id="lOut"></div>
+ </div>
+</div></main>
+
+<!-- ASK -->
+<main id="v-ask" class="view" style="--c:var(--c-ask)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="ask.t"></h2></div><p data-t="ask.long"></p></section>
+ <div class="stack">
+  <div class="card">
+   <div class="chat" id="askLog" aria-live="polite"></div>
+   <div style="text-align:center;margin:16px 0 6px"><button class="bigmic" id="askMic" aria-label="Speak"><svg width="44" height="44"><use href="#i-ask"/></svg></button><div class="hint" id="askMicHint" style="font-weight:700" data-t="ask.tap"></div></div>
+   <form class="composer" id="askForm"><input class="in" id="askIn" autocomplete="off" data-tp="ask.ph"><button class="round go" id="askSend" aria-label="Send"><svg width="20" height="20"><use href="#i-send"/></svg></button></form>
+   <label class="l" data-t="ask.examples"></label><div class="pills" id="askEx"></div>
+   <div class="err" id="askErr"></div>
+  </div>
+ </div>
+</div></main>
+
+<!-- DOCUMENT -->
+<main id="v-doc" class="view" style="--c:var(--c-doc)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="m.doc.t"></h2></div><p data-t="m.doc.long"></p></section>
+ <div class="stack">
+  <div class="card">
+   <label class="pick"><input type="file" id="dImg" accept="image/*"><span class="thumb"><svg width="26" height="26"><use href="#i-camera"/></svg></span><span data-t="doc.photo"></span></label>
+   <label class="l" data-t="doc.q"></label>
+   <div class="composer" style="margin-top:0"><input class="in" id="dQ" data-tp="doc.qPh"><button class="round mic" data-mic="dQ" aria-label="Speak" hidden><svg width="20" height="20"><use href="#i-mic"/></svg></button></div>
+   <button class="btn block" id="dGo" style="margin-top:14px"><svg width="18" height="18"><use href="#i-spark"/></svg><span data-t="doc.go"></span></button>
+   <div class="err" id="dErr"></div>
+  </div>
+  <div class="out stack" id="dOut"></div>
+  <p class="hint" data-t="doc.note"></p>
+ </div>
+</div></main>
+
+<!-- NEARBY -->
+<main id="v-near" class="view" style="--c:var(--c-near)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="m.near.t"></h2></div><p data-t="m.near.long"></p></section>
+ <div class="stack">
+  <div class="card">
+   <div class="pills" id="nCats"></div>
+   <div class="mini"><button class="btn soft small" id="nLoc"><svg width="16" height="16"><use href="#i-locate"/></svg><span data-t="near.loc"></span></button><button class="btn soft small" id="nHere" data-t="near.searchHere"></button></div>
+   <p class="hint" id="nWhere"></p>
+   <p class="hint" id="nShelterNote" data-t="near.shelterNote" hidden></p>
+  </div>
+  <div class="mapwrap"><div class="map" id="nmap" style="height:min(46vh,420px)"></div></div>
+  <div class="card"><div id="nList"></div></div>
+ </div>
+</div></main>
+
+<!-- HEALTH -->
+<main id="v-health" class="view" style="--c:var(--c-health)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="m.health.t"></h2></div><p data-t="m.health.long"></p></section>
+ <div class="stack">
+  <div class="card" id="hLatest"></div>
+  <div class="card">
+   <h3 data-t="hl.add"></h3>
+   <div class="row"><div><label class="l" for="hSys" data-t="hl.sys"></label><input class="in" type="number" inputmode="numeric" id="hSys" placeholder="120"></div><div><label class="l" for="hDia" data-t="hl.dia"></label><input class="in" type="number" inputmode="numeric" id="hDia" placeholder="80"></div></div>
+   <div class="row"><div><label class="l" for="hPulse" data-t="hl.pulse"></label><input class="in" type="number" inputmode="numeric" id="hPulse" placeholder="72"></div><div><label class="l" for="hSugar" data-t="hl.sugar"></label><input class="in" type="number" inputmode="numeric" id="hSugar" placeholder="110"></div></div>
+   <label class="l" data-t="hl.sugarType"></label>
+   <div class="pills" id="hType"></div>
+   <button class="btn block" id="hSave" style="margin-top:14px" data-t="hl.save"></button>
+   <div class="err" id="hErr"></div>
+  </div>
+  <div class="card"><h3 data-t="hl.trend"></h3><div id="hCharts"></div></div>
+  <div class="card"><h3 data-t="hl.history"></h3><div id="hList"></div>
+   <div class="btns"><button class="btn soft" id="hShare"><svg width="18" height="18"><use href="#i-share"/></svg><span data-t="hl.share"></span></button><button class="btn" id="hExplain"><svg width="18" height="18"><use href="#i-spark"/></svg><span data-t="hl.explain"></span></button></div>
+   <div class="err" id="hxErr"></div>
+  </div>
+  <div class="out" id="hOut"></div>
+  <p class="hint" data-t="hl.note"></p>
+ </div>
+</div></main>
+
+<!-- SOS -->
+<main id="v-sos" class="view" style="--c:var(--bad)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="sos.title"></h2></div><p data-t="sos.long"></p></section>
+ <div class="stack">
+  <div class="card sosbox">
+   <button class="sosbig" id="sosBig"><b>SOS</b><small data-t="sos.big"></small></button>
+   <label class="checkrow"><input type="checkbox" id="sosStuck"><span data-t="sos.stuck"></span></label>
+   <p class="hint" id="sosLoc" style="text-align:center"></p>
+   <div class="btns" id="sosActions" hidden style="justify-content:center">
+    <button class="btn" id="sosSms"><svg width="18" height="18"><use href="#i-sch"/></svg><span data-t="sos.sms"></span></button>
+    <button class="btn soft" id="sosShare"><svg width="18" height="18"><use href="#i-share"/></svg><span data-t="sos.share"></span></button>
+   </div>
+   <div class="btns" style="justify-content:center"><a class="btn ghost" href="tel:112" data-ext><svg width="18" height="18"><use href="#i-phone"/></svg><span data-t="sos.call"></span></a></div>
+   <p class="hint" data-t="sos.note" style="text-align:center"></p>
+  </div>
+  <div class="card">
+   <h3 data-t="sos.contacts"></h3>
+   <div id="contactList"></div>
+   <div class="row" style="margin-top:10px"><div><label class="l" for="cName" data-t="sos.name"></label><input class="in" id="cName" autocomplete="off"></div><div><label class="l" for="cPhone" data-t="sos.phone"></label><input class="in" id="cPhone" type="tel" autocomplete="off" placeholder="+91 98XXXXXXXX"></div></div>
+   <button class="btn soft" id="cAdd" style="margin-top:12px" data-t="sos.addContact"></button>
+  </div>
+ </div>
+</div></main>
+
+<!-- SETTINGS -->
+<main id="v-settings" class="view settings" style="--c:var(--brand2)"><div class="narrow">
+ <section class="mhead"><div class="row1"><button class="back" aria-label="Back"><svg width="22" height="22"><use href="#i-back"/></svg></button><h2 data-t="st.title"></h2></div></section>
+ <div class="card"><h3 data-t="tm.title"></h3><div class="pills" id="themePills"><button class="pill" data-tm="auto" data-t="tm.auto"></button><button class="pill" data-tm="light" data-t="tm.light"></button><button class="pill" data-tm="dark" data-t="tm.dark"></button></div></div>
+ <div class="card"><h3 data-t="st.elder"></h3><label class="checkrow left"><input type="checkbox" id="elderToggle"><span data-t="st.elderOn"></span></label></div>
+ <div class="card"><h3 data-t="st.lang"></h3><div class="pills"><button class="pill" id="sEn">English</button><button class="pill" id="sTa">தமிழ்</button></div></div>
+ <div class="card">
+  <h3 data-t="st.ai"></h3>
+  <label class="l" data-t="st.keyLbl"></label>
+  <div class="keyrow"><input class="in" id="keyIn" type="password" autocomplete="off" spellcheck="false" placeholder="AIza…"><button class="btn ghost small" id="keyShow" data-t="st.show"></button></div>
+  <p class="hint" data-t="st.keyHelp"></p>
+  <label class="l" data-t="st.model"></label>
+  <select class="in" id="modelSel">
+   <option value="gemini-3.8-flash">Gemini 3.8 Flash</option>
+   <option value="gemini-3.5-flash-lite">Gemini 3.5 Flash-Lite</option>
+   <option value="gemini-3.6-flash">Gemini 3.6 Flash</option>
+   <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+  </select>
+  <div class="btns"><button class="btn" id="keySave" data-t="st.save"></button><button class="btn soft" id="keyTest" data-t="st.test"></button><a class="btn ghost" href="https://aistudio.google.com/apikey" data-ext data-t="st.getKey"></a><button class="btn ghost" id="keyClear" data-t="st.clear"></button></div>
+  <div class="err" id="keyErr"></div><div class="hint" id="keyOk"></div>
+ </div>
+ <div class="card">
+  <h3 data-t="st.live"></h3>
+  <label class="checkrow left"><input type="checkbox" id="liveToggle"><span data-t="st.liveOn"></span></label>
+  <label class="l" for="groupIn" data-t="st.group"></label><input class="in" id="groupIn" autocomplete="off" maxlength="30">
+  <p class="hint" data-t="st.groupHelp"></p>
+ </div>
+ <div class="card">
+  <h3 data-t="st.voice"></h3>
+  <label style="display:flex;gap:10px;align-items:center;font-weight:600;font-size:14.5px"><input type="checkbox" id="gemVoice" style="width:20px;height:20px;accent-color:var(--brand2)"><span data-t="st.gemVoice"></span></label>
+  <div class="btns"><button class="btn soft" id="voiceTest"><svg width="18" height="18"><use href="#i-speak"/></svg><span data-t="st.voiceTest"></span></button></div>
+ </div>
+ <div class="card"><h3 data-t="st.about"></h3><p class="hint" data-t="st.aboutTxt"></p></div>
+</div></main>
+
+<nav class="bnav" id="bnav"></nav>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
